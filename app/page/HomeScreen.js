@@ -47,6 +47,10 @@ var styles = StyleSheet.create({
   list: {
     paddingTop: 20,
     backgroundColor: '#F5FCFF',
+  },
+  banner: {
+    // width: 750,
+    height: 176,
   }
 });
 class MyScreen extends React.Component {
@@ -75,6 +79,7 @@ class MyScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    // var movie = NetEaseMusicBanner[0];
     if (this.state.loaded == false) {
       return this.renderLoadingView();
     }
@@ -87,6 +92,23 @@ class MyScreen extends React.Component {
       //   />
       // </View>
       <View>
+        
+        <WingBlank>
+          <Carousel
+            slideWidth={1}
+            autoplay
+            infinite
+            autoplayInterval={5000}
+          >
+            {this.state.data.map(val => (
+              <Image
+                source={{ uri: val.pic }}
+                style={styles.banner}
+              />
+            ))}
+          </Carousel>
+        </WingBlank>
+
         <FlatList
           data={this.state.data}
           renderItem={this.renderMovie}
@@ -119,9 +141,8 @@ class MyScreen extends React.Component {
       </View>
     </View>
   );
-
 }
-//底部
+//底部--公共部位
 const MainScreenNavigator = TabNavigator({
   Home: {
     screen: MyScreen,
@@ -149,7 +170,7 @@ const MainScreenNavigator = TabNavigator({
     }
   },
 }, {
-    animationEnabled: false, // 切换页面时不显示动画
+    animationEnabled: true, // 切换页面时不显示动画
     tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
     swipeEnabled: false, // 禁止左右滑动
     backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
@@ -172,11 +193,7 @@ const MainScreenNavigator = TabNavigator({
 const SimpleApp = StackNavigator({
   Home: { 
     screen: MainScreenNavigator,
-    // navigationOptions: {
-    //   header: null,
-    // }
-  },
-  // Chat: { screen: ChatScreen },
+  }
 });
 
 export default SimpleApp;
