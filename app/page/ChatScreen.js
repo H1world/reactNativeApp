@@ -26,7 +26,7 @@ class ChatScreen extends React.Component {
           Content
         </List.Item>
         
-        <Button type="primary">primary</Button>
+        <Button type="primary">确定</Button>
         
       </View>
     );
