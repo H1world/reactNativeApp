@@ -1,18 +1,25 @@
+/*@flow*/
 import React from 'react';
 import {
   AppRegistry,
   Text,
-  Button,
   Image,
   View,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
+  Dimensions,
+  TextInput
 } from 'react-native';
 //导入stack导航组件
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import { Carousel, WhiteSpace, WingBlank } from 'antd-mobile';
+import { SearchBar, Button, Carousel, WhiteSpace, WingBlank } from 'antd-mobile';
+// import { SearchBar, Button, WhiteSpace, WingBlank } from 'antd-mobile';
 //网易banner接口
 import ChatScreen from './ChatScreen';
+import SeleHead from '../components/commonHead';
+
+const { width, height } = Dimensions.get('window');
 
 var NetEaseMusicBanner = "http://104.224.160.73:8888/banner";
 //样式
@@ -48,6 +55,47 @@ var styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: '#F5FCFF',
   },
+  navIcon: {
+    height: 20,
+    width: 20,
+    marginLeft: 10,
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  searchBox: {
+    width: width * 0.7,
+    height: 30,
+    borderColor: 'black',
+    flexDirection: 'row',   // 水平排布
+    borderRadius: 10,  // 设置圆角边
+    backgroundColor: '#FFF',
+    borderWidth: 0.8,
+    borderRadius: 10,
+    borderColor: 'gray',
+    alignItems: 'center',
+    marginLeft: 8,
+    paddingTop: 0,
+    marginTop: 2,
+    marginBottom: 2,
+    paddingBottom: 0,
+    marginRight: 8,
+  },
+  inputIcon: {//搜索图标
+    height: 20,
+    width: 20,
+    marginLeft: 5,
+    resizeMode: 'stretch'
+  },
+  inputText: {//搜索框
+    backgroundColor: 'transparent',
+    fontSize: 13,
+    paddingBottom: 0,
+    paddingTop: 0,
+    flex: 1,
+  },
   banner: {
     // width: 750,
     height: 176,
@@ -57,12 +105,13 @@ class MyScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      value:'美食',
       data: [],
       loaded: false,
     }
     this.fetchBannerData = this.fetchBannerData.bind(this);
   }
-
+  
   componentDidMount() {
     this.fetchBannerData();
   }
@@ -76,6 +125,53 @@ class MyScreen extends React.Component {
         });
       });
   }
+
+  // 头部左侧
+  renderLeftItem() {
+    return (
+      <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search') }} style={styles.navLeft}>
+        <Image source={require('../image/musicIcon.png')} style={styles.navIcon} />
+      </TouchableOpacity>
+    )
+  }
+  // 头部中间
+  renderTitleItem() {
+    return (
+      <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search') }}>
+        {/* <View style={styles.searchBox}>
+          
+        </View> */}
+        <View style={styles.searchBox}>
+          {/* <SearchBar 
+            placeholder="Search" 
+            maxLength={8} 
+            value={this.state.value}
+            style={{width:width}}
+            onCancel={() => {value==''}}
+          />           */} 
+          <Image source={require('../image/select.png')} style={styles.inputIcon} />
+          <TextInput style={styles.inputText}
+            // onChangeText={(text) => this.changeText(text)}
+            underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+            placeholder='搜索' />
+          
+
+        </View> 
+      </TouchableOpacity>
+    )
+  }
+  // 头部右侧
+  renderRightItem() {
+    return (
+      <TouchableOpacity onPress={() => { this.props.navigation.navigate('MessageCenter') }} style={styles.navRight}>
+        <Image source={require('../image/note.png')} style={styles.searchIcon} />
+      </TouchableOpacity>
+    )
+  }
+
+  // changeText(text){
+
+  // }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -92,7 +188,11 @@ class MyScreen extends React.Component {
       //   />
       // </View>
       <View>
-        
+        <SeleHead
+          leftItem={() => this.renderLeftItem()}
+          titleItem={() => this.renderTitleItem()}
+          rightItem={() => this.renderRightItem()}
+        />
         <WingBlank>
           <Carousel
             slideWidth={1}

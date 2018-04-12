@@ -4,8 +4,6 @@ import {
   View,
 } from 'react-native';
 import { Button, List, Badge  } from 'antd-mobile';
-// import { TabBar } from 'antd-mobile';
-import { StackNavigator } from 'react-navigation';
 
 class ChatScreen extends React.Component {
   static navigationOptions = {
