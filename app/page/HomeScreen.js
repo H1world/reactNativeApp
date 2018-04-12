@@ -108,6 +108,7 @@ class MyScreen extends React.Component {
       value:'美食',
       data: [],
       loaded: false,
+      refreshing: false,
     }
     this.fetchBannerData = this.fetchBannerData.bind(this);
   }
@@ -213,11 +214,39 @@ class MyScreen extends React.Component {
           data={this.state.data}
           renderItem={this.renderMovie}
           style={styles.list}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
         />
       </View>
       
     );
   } 
+
+  //Flatlist下拉刷新
+  onRefresh = () => {
+    //设置刷新状态为正在刷新
+    this.setState({
+      refreshing: true,
+    });
+    //延时加载
+    const timer = setTimeout(() => {
+      clearTimeout(timer);
+      //往数组的第一位插入数据，模拟数据新增 , unshift()会返回数组的长度
+      this.state.data.unshift(new this.ItemData('https://pic2.zhimg.com/v2-8f11b41f995ca5340510c1def1c003d1.jpg',
+        '下拉刷新添加的数据——————' + this.count, 475843));
+      this.count++;
+      this.setState({
+        refreshing: false,
+      });
+    }, 1500);
+  };
+
+  ItemData(images, title, id) {
+    this.pic = images;
+    this.typeTitle = JSON.stringify(title);
+    this.targetId = id;
+  }
+
 
   renderLoadingView() {
     return (
