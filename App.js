@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
+import { Provider } from 'mobx-react';
+import { RootStack } from './app/navigationPage/router';
+// import store from './mobx/store.js';
 
-import MyScreen from './app/page/HomeScreen';
-
-export default class HelloWorldApp extends Component {
+export default class App extends Component {
   render() {
-    return <MyScreen />;
+    return (
+      // <Provider store={store}>
+      <Provider>
+        <RootStack />
+      </Provider>
+    );
   }
 }
+
+
+// import MyScreen from './app/page/HomeScreen';
+
+// export default class HelloWorldApp extends Component {
+//   render() {
+//     return <MyScreen />;
+//   }
+// }

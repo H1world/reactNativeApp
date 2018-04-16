@@ -1,5 +1,5 @@
 /*@flow*/
-import React from 'react';
+import React, { Component } from 'react';
 import {
   AppRegistry,
   Text,
@@ -8,100 +8,18 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Dimensions,
   TextInput
 } from 'react-native';
 //导入stack导航组件
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { SearchBar, Button, Carousel, WhiteSpace, WingBlank } from 'antd-mobile';
-// import { SearchBar, Button, WhiteSpace, WingBlank } from 'antd-mobile';
-//网易banner接口
-import ChatScreen from './ChatScreen';
+import { homeStyle } from '../layout/style.js';
 import SeleHead from '../components/commonHead';
 
-const { width, height } = Dimensions.get('window');
-
+//接口
 var NetEaseMusicBanner = "http://104.224.160.73:8888/banner";
 //样式
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  newContainer: {
-    backgroundColor: '#b00',
-  },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
-  rightContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    color: '#000',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  year: {
-    color: '#000',
-    textAlign: 'center',
-  },
-  list: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF',
-  },
-  navIcon: {
-    height: 20,
-    width: 20,
-    marginLeft: 10,
-  },
-  searchIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
-  },
-  searchBox: {
-    width: width * 0.7,
-    height: 30,
-    borderColor: 'black',
-    flexDirection: 'row',   // 水平排布
-    borderRadius: 10,  // 设置圆角边
-    backgroundColor: '#FFF',
-    borderWidth: 0.8,
-    borderRadius: 10,
-    borderColor: 'gray',
-    alignItems: 'center',
-    marginLeft: 8,
-    paddingTop: 0,
-    marginTop: 2,
-    marginBottom: 2,
-    paddingBottom: 0,
-    marginRight: 8,
-  },
-  inputIcon: {//搜索图标
-    height: 20,
-    width: 20,
-    marginLeft: 5,
-    resizeMode: 'stretch'
-  },
-  inputText: {//搜索框
-    backgroundColor: 'transparent',
-    fontSize: 13,
-    paddingBottom: 0,
-    paddingTop: 0,
-    flex: 1,
-  },
-  banner: {
-    // width: 750,
-    height: 176,
-  }
-});
-class MyScreen extends React.Component {
+export default class MyScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,8 +48,8 @@ class MyScreen extends React.Component {
   // 头部左侧
   renderLeftItem() {
     return (
-      <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search') }} style={styles.navLeft}>
-        <Image source={require('../image/musicIcon.png')} style={styles.navIcon} />
+      <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search') }} style={homeStyle.navLeft}>
+        <Image source={require('../image/musicIcon.png')} style={homeStyle.navIcon} />
       </TouchableOpacity>
     )
   }
@@ -142,7 +60,7 @@ class MyScreen extends React.Component {
         {/* <View style={styles.searchBox}>
           
         </View> */}
-        <View style={styles.searchBox}>
+        <View style={homeStyle.searchBox}>
           {/* <SearchBar 
             placeholder="Search" 
             maxLength={8} 
@@ -150,8 +68,8 @@ class MyScreen extends React.Component {
             style={{width:width}}
             onCancel={() => {value==''}}
           />           */} 
-          <Image source={require('../image/select.png')} style={styles.inputIcon} />
-          <TextInput style={styles.inputText}
+          <Image source={require('../image/select.png')} style={homeStyle.inputIcon} />
+          <TextInput style={homeStyle.inputText}
             // onChangeText={(text) => this.changeText(text)}
             underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
             placeholder='搜索' />
@@ -164,8 +82,8 @@ class MyScreen extends React.Component {
   // 头部右侧
   renderRightItem() {
     return (
-      <TouchableOpacity onPress={() => { this.props.navigation.navigate('MessageCenter') }} style={styles.navRight}>
-        <Image source={require('../image/note.png')} style={styles.searchIcon} />
+      <TouchableOpacity onPress={() => { this.props.navigation.navigate('MessageCenter') }} style={homeStyle.navRight}>
+        <Image source={require('../image/note.png')} style={homeStyle.searchIcon} />
       </TouchableOpacity>
     )
   }
@@ -204,7 +122,7 @@ class MyScreen extends React.Component {
             {this.state.data.map(val => (
               <Image
                 source={{ uri: val.pic }}
-                style={styles.banner}
+                style={homeStyle.banner}
               />
             ))}
           </Carousel>
@@ -213,7 +131,7 @@ class MyScreen extends React.Component {
         <FlatList
           data={this.state.data}
           renderItem={this.renderMovie}
-          style={styles.list}
+          style={homeStyle.list}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
         />
@@ -259,70 +177,15 @@ class MyScreen extends React.Component {
   }
 
   renderMovie = ({ item, index }) => (
-    <View style={styles.container}>
+    <View style={homeStyle.container}>
       <Image
         source={{ uri: item.pic }}
-        style={styles.thumbnail}
+        style={homeStyle.thumbnail}
       />
-      <View style={styles.rightContainer}>
-        <Text style={styles.title}>{item.typeTitle}</Text>
-        <Text style={styles.year}>{item.targetId}</Text>
+      <View style={homeStyle.rightContainer}>
+        <Text style={homeStyle.title}>{item.typeTitle}</Text>
+        <Text style={homeStyle.year}>{item.targetId}</Text>
       </View>
     </View>
   );
 }
-//底部--公共部位
-const MainScreenNavigator = TabNavigator({
-  Home: {
-    screen: MyScreen,
-    navigationOptions: {
-      header: null,
-      tabBarLabel: '首页',
-      tabBarIcon: ({ tintColor }) => (
-        <Image
-          // source={require('./image/bar_home_nomarl@3x.png')}
-          // style={[{ tintColor: tintColor }, styles.icon]}
-        />
-      ),
-    }
-  },
-  Certificate: {
-    screen: ChatScreen,
-    navigationOptions: {
-      tabBarLabel: '我的',
-      tabBarIcon: ({ tintColor }) => (
-        <Image
-          // source={require('./image/bar_center_normal@3x.png')}
-          // style={[{ tintColor: tintColor }, styles.icon]}
-        />
-      ),
-    }
-  },
-}, {
-    animationEnabled: true, // 切换页面时不显示动画
-    tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
-    swipeEnabled: false, // 禁止左右滑动
-    backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
-    tabBarOptions: {
-      activeTintColor: '#008AC9', // 文字和图片选中颜色
-      inactiveTintColor: '#999', // 文字和图片默认颜色
-      showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
-      indicatorStyle: { height: 0 }, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了
-      style: {
-        backgroundColor: '#fff', // TabBar 背景色
-      },
-      labelStyle: {
-        fontSize: 12, // 文字大小
-      },
-    },
-  });
-
-
-//导航注册
-const SimpleApp = StackNavigator({
-  Home: { 
-    screen: MainScreenNavigator,
-  }
-});
-
-export default SimpleApp;
