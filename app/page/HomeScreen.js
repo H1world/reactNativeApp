@@ -8,7 +8,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  StatusBar
 } from 'react-native';
 //导入stack导航组件
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -107,6 +108,10 @@ export default class MyScreen extends Component {
       //   />
       // </View>
       <View>
+        <StatusBar
+          backgroundColor="#29a2d7"
+          barStyle="light-content"
+        />
         <SeleHead
           leftItem={() => this.renderLeftItem()}
           titleItem={() => this.renderTitleItem()}
