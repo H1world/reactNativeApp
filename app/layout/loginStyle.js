@@ -54,5 +54,20 @@ export const loginStyle = StyleSheet.create({
     height: scaleSize(144),
     backgroundColor: '#b00',
     borderBottomColor: '#fff',
+  },
+  
+  buttonStyle:{
+    width: width - scaleSize(180),
+    height: scaleSize(144),
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: scaleSize(72),
+    backgroundColor: '#fff',
+    marginTop: scaleSize(150),
+  },
+  buttonText:{
+    fontSize: scaleSize(54),
+    color: '#01a374',
   }
 });
